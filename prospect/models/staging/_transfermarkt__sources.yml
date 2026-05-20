@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: transfermarkt
+    description: Transfermarkt football datasets loaded into DuckDB.
+    schema: main
+    tables:
+      - name: appearances
+        description: Player appearances per game.
+      - name: club_games
+        description: Club-level game results and metadata.
+      - name: clubs
+        description: Football clubs.
+      - name: competitions
+        description: Competitions and leagues.
+      - name: countries
+        description: Countries.
+      - name: game_events
+        description: In-game events (goals, cards, substitutions).
+      - name: game_lineups
+        description: Player lineups per game.
+      - name: games
+        description: Individual matches.
+      - name: national_teams
+        description: National team associations.
+      - name: player_valuations
+        description: Historical player market valuations.
+      - name: players
+        description: Player master data.
+      - name: transfers
+        description: Player transfer history.
+      - name: version
+        description: Dataset version metadata.

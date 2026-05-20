@@ -1,0 +1,16 @@
+[project]
+name = "burch-prospect-dbt"
+version = "0.1.0"
+description = "Transfermarkt analytics: dbt on DuckDB, orchestrated with Airflow and Cosmos"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "dbt-core==1.11.11",
+  "dbt-duckdb==1.10.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "sqlfluff",
+  "sqlfluff-templater-dbt",
+]

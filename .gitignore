@@ -3,6 +3,21 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+database/*.duckdb
+
+# dbt
+prospect/target/
+prospect/dbt_packages/
+prospect/logs/
+
+# Airflow
+logs/
+config/airflow.cfg
+.env
+
+# dbt user overrides
+prospect/.user.yml
+
 # C extensions
 *.so
 
