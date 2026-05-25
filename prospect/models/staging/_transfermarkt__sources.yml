@@ -16,6 +16,11 @@ sources:
           - name: player_id
             tests:
               - not_null
+              - dbt_utils.relationships_where:
+                  arguments:
+                    to: source('transfermarkt', 'players')
+                    field: player_id
+                    from_condition: player_name is not null
           - name: game_id
             tests:
               - not_null
@@ -64,6 +69,10 @@ sources:
           - name: player_id
             tests:
               - not_null
+              - relationships:
+                  arguments:
+                    to: source('transfermarkt', 'players')
+                    field: player_id
       - name: players
         description: Player master data.
         columns:
@@ -77,5 +86,9 @@ sources:
           - name: player_id
             tests:
               - not_null
+              - relationships:
+                  arguments:
+                    to: source('transfermarkt', 'players')
+                    field: player_id
       - name: version
         description: Dataset version metadata.

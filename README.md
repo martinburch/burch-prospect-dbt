@@ -17,15 +17,19 @@ dbt project for Transfermarkt football data in DuckDB, orchestrated with [Apache
 ├── airflow/dags/          # Cosmos DAGs
 ├── docker-compose.yaml    # Airflow 3.2 cluster
 ├── Dockerfile             # Custom image with Cosmos + dbt-duckdb
-└── pyproject.toml         # uv-managed local dbt deps
+├── pyproject.toml         # uv-managed Python deps (dbt-core, dbt-duckdb)
+└── prospect/packages.yml  # dbt Hub packages (e.g. dbt-utils)
 ```
 
 ## Local dbt development
+
+`pyproject.toml` installs the Python dbt toolchain (`dbt-core`, `dbt-duckdb`). Hub packages such as [dbt-utils](https://hub.getdbt.com/dbt-labs/dbt_utils/latest/) are declared in `prospect/packages.yml` and installed with `dbt deps`.
 
 ```bash
 uv sync
 export DUCKDB_PATH="$(pwd)/database/transfermarkt-datasets.duckdb"
 
+uv run dbt deps --project-dir prospect --profiles-dir prospect
 uv run dbt debug --project-dir prospect --profiles-dir prospect
 uv run dbt parse --project-dir prospect --profiles-dir prospect
 uv run dbt list --project-dir prospect --profiles-dir prospect --resource-type source
@@ -57,7 +61,7 @@ docker compose up -d
 
 Open the UI at [http://localhost:8080](http://localhost:8080) (default user/password: `airflow` / `airflow`).
 
-Enable the **`prospect_dbt`** DAG. With no dbt models yet, the DAG may render with minimal tasks until you add SQL under `prospect/models/`.
+Enable the **`prospect_dbt`** DAG. Cosmos runs `dbt deps` before tasks (`install_deps: true`), so Hub packages are installed in the container without a separate step. With no dbt models yet, the DAG may render with minimal tasks until you add SQL under `prospect/models/`.
 
 ### Verify dbt inside the worker
 
