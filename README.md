@@ -31,7 +31,7 @@ uv run dbt parse --project-dir prospect --profiles-dir prospect
 uv run dbt list --project-dir prospect --profiles-dir prospect --resource-type source
 ```
 
-The project defines **13 sources** under `transfermarkt` in `main`. Staging and mart folders are scaffolded; add SQL models there when ready.
+The project defines sources from `transfermarkt-datasets` DuckDB database file, `main` schema. Staging and mart folders are scaffolded.
 
 ## Airflow + Cosmos
 

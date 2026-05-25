@@ -2,13 +2,29 @@ version: 2
 
 sources:
   - name: transfermarkt
-    description: Transfermarkt football datasets loaded into DuckDB.
+    description: Transfermarkt football tables loaded into DuckDB.
     schema: main
     tables:
       - name: appearances
         description: Player appearances per game.
+        columns:
+          - name: appearance_id
+            description: Primary key composed of game_id + "_" + player_id
+            tests:
+              - unique
+              - not_null
+          - name: player_id
+            tests:
+              - not_null
+          - name: game_id
+            tests:
+              - not_null
       - name: club_games
         description: Club-level game results and metadata.
+        columns:
+          - name: game_id
+            tests:
+              - not_null
       - name: clubs
         description: Football clubs.
       - name: competitions
@@ -16,18 +32,50 @@ sources:
       - name: countries
         description: Countries.
       - name: game_events
-        description: In-game events (goals, cards, substitutions).
+        description: In-game events (goals, cards, substitutions, shootouts).
+        columns:
+          - name: player_id
+            tests:
+              - not_null
+          - name: game_id
+            tests:
+              - not_null
       - name: game_lineups
         description: Player lineups per game.
+        columns:
+          - name: player_id
+            tests:
+              - not_null
+          - name: game_id
+            tests:
+              - not_null
       - name: games
         description: Individual matches.
+        columns:
+          - name: game_id
+            tests:
+              - unique
+              - not_null
       - name: national_teams
         description: National team associations.
       - name: player_valuations
         description: Historical player market valuations.
+        columns:
+          - name: player_id
+            tests:
+              - not_null
       - name: players
         description: Player master data.
+        columns:
+          - name: player_id
+            tests:
+              - unique
+              - not_null
       - name: transfers
         description: Player transfer history.
+        columns:
+          - name: player_id
+            tests:
+              - not_null
       - name: version
         description: Dataset version metadata.
