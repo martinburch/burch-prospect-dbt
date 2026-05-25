@@ -24,6 +24,16 @@ sources:
           - name: game_id
             tests:
               - not_null
+          - name: minutes_played
+            tests:
+              - dbt_utils.accepted_range:
+                  arguments:
+                    min_value: 0
+          - name: goals
+            tests:
+              - dbt_utils.accepted_range:
+                  arguments:
+                    min_value: 0
       - name: club_games
         description: Club-level game results and metadata.
         columns:
@@ -61,6 +71,16 @@ sources:
             tests:
               - unique
               - not_null
+          - name: home_club_goals
+            tests:
+              - dbt_utils.accepted_range:
+                  arguments:
+                    min_value: 0
+          - name: away_club_goals
+            tests:
+              - dbt_utils.accepted_range:
+                  arguments:
+                    min_value: 0
       - name: national_teams
         description: National team associations.
       - name: player_valuations
