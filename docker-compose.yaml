@@ -67,7 +67,7 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     # Container paths only (do not interpolate from host DUCKDB_PATH)
     DUCKDB_PATH: /opt/airflow/database/transfermarkt-datasets.duckdb
-    DBT_PROJECT_PATH: /opt/airflow/dbt/prospect
+    DBT_PROJECT_PATH: /opt/airflow/dbt
     AIRFLOW_CONN_DUCKDB_DEFAULT: ${AIRFLOW_CONN_DUCKDB_DEFAULT:-duckdb://%2Fopt%2Fairflow%2Fdatabase%2Ftransfermarkt-datasets.duckdb}
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW__API_AUTH__JWT_SECRET:-airflow_jwt_secret}
@@ -84,7 +84,7 @@ x-airflow-common:
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/airflow/dags:/opt/airflow/dags
-    - ${AIRFLOW_PROJ_DIR:-.}/prospect:/opt/airflow/dbt/prospect
+    - ${AIRFLOW_PROJ_DIR:-.}/dbt:/opt/airflow/dbt
     - ${AIRFLOW_PROJ_DIR:-.}/database:/opt/airflow/database
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config

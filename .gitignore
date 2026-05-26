@@ -6,9 +6,9 @@ __pycache__/
 database/*.duckdb
 
 # dbt
-prospect/target/
-prospect/dbt_packages/
-prospect/logs/
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
 
 # Airflow
 logs/
@@ -16,7 +16,7 @@ config/airflow.cfg
 .env
 
 # dbt user overrides
-prospect/.user.yml
+dbt/.user.yml
 
 # C extensions
 *.so

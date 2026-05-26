@@ -11,7 +11,7 @@ from cosmos.constants import ExecutionMode
 from cosmos.profiles import DuckDBUserPasswordProfileMapping
 
 DBT_PROJECT_PATH = Path(
-    os.getenv("DBT_PROJECT_PATH", "/opt/airflow/dbt/prospect")
+    os.getenv("DBT_PROJECT_PATH", "/opt/airflow/dbt")
 )
 
 profile_config = ProfileConfig(
