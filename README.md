@@ -1,13 +1,21 @@
-# Prospect
+# burch-prospect-dbt
 
-dbt project for Transfermarkt football data in DuckDB, orchestrated with [Apache Airflow 3](https://airflow.apache.org/) and [Astronomer Cosmos](https://astronomer.github.io/astronomer-cosmos/).
+dbt project for transforming Transfermarkt football data in DuckDB, orchestrated with [Apache Airflow 3](https://airflow.apache.org/) and [Astronomer Cosmos](https://astronomer.github.io/astronomer-cosmos/).
+
+**This project currently includes only _[source testing](dbt/models/staging/_transfermarkt__sources.yml)_ as a demonstration**, not silver and gold data modelling.
 
 ## Prerequisites
 
 - [uv](https://docs.astral.sh/uv/) for local Python/dbt
 - Python 3.12 (pinned via `.python-version`)
 - [Docker Compose](https://docs.docker.com/compose/install/) v2.14+
-- DuckDB database at `database/transfermarkt-datasets.duckdb` (gitignored; place your copy there)
+- DuckDB database at `database/transfermarkt-datasets.duckdb`
+
+```
+mkdir -p database/
+cd database/
+curl -LO https://pub-e682421888d945d684bcae8890b0ec20.r2.dev/data/transfermarkt-datasets.duckdb
+```
 
 ## Project layout
 
@@ -26,16 +34,15 @@ dbt project for Transfermarkt football data in DuckDB, orchestrated with [Apache
 `pyproject.toml` installs the Python dbt toolchain (`dbt-core`, `dbt-duckdb`). Hub packages such as [dbt-utils](https://hub.getdbt.com/dbt-labs/dbt_utils/latest/) are declared in `dbt/packages.yml` and installed with `dbt deps`.
 
 ```bash
-uv sync
-export DUCKDB_PATH="$(pwd)/database/transfermarkt-datasets.duckdb"
+cd dbt
 
-uv run dbt deps --project-dir dbt --profiles-dir dbt
-uv run dbt debug --project-dir dbt --profiles-dir dbt
-uv run dbt parse --project-dir dbt --profiles-dir dbt
-uv run dbt list --project-dir dbt --profiles-dir dbt --resource-type source
+uv run dbt deps
+uv run dbt debug
+uv run dbt parse
+uv run dbt list --resource-type source
 ```
 
-The project defines sources from `transfermarkt-datasets` DuckDB database file, `main` schema. Staging and mart folders are scaffolded.
+The project defines sources from `transfermarkt-datasets` DuckDB database file, `main` schema.
 
 ## Airflow + Cosmos
 
@@ -61,7 +68,7 @@ docker compose up -d
 
 Open the UI at [http://localhost:8080](http://localhost:8080) (default user/password: `airflow` / `airflow`).
 
-Enable the **`prospect_dbt`** DAG. Cosmos runs `dbt deps` before tasks (`install_deps: true`), so Hub packages are installed in the container without a separate step. With no dbt models yet, the DAG may render with minimal tasks until you add SQL under `dbt/models/`.
+Enable the **`prospect_dbt`** DAG. Cosmos runs `dbt deps` before tasks (`install_deps: true`), so Hub packages are installed in the container without a separate step. With no dbt models yet, the DAG may render with minimal tasks until we add SQL under `dbt/models/`.
 
 ### Verify dbt inside the worker
 
@@ -76,15 +83,6 @@ docker compose exec airflow-worker dbt debug \
 ```bash
 docker compose down
 ```
-
-## Versions
-
-| Package | Version |
-|---------|---------|
-| dbt-core | 1.11.11 |
-| dbt-duckdb | 1.10.1 |
-| astronomer-cosmos | 1.14.1 |
-| Apache Airflow | 3.2.1 |
 
 ## Environment variables
 
